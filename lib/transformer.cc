@@ -193,16 +193,15 @@ void UArrangementTransformer::TransformCanvas::Fill(
 void UArrangementTransformer::TransformCanvas::SetPixel(
   int x, int y, uint8_t red, uint8_t green, uint8_t blue) {
   if (x < 0 || x >= width_ || y < 0 || y >= height_) return;
-  const int slab_height = 2*panel_height_;   // one folded u-shape
-  const int base_y = (y / slab_height) * panel_height_;
-  y %= slab_height;
+ 
+  int finalx = x;
+  int finaly = y;
   if (y < panel_height_) {
-    x += delegatee_->width() / 2;
+    finalx += 64;
   } else {
-    x = width_ - x - 1;
-    y = slab_height - y - 1;
+    finaly -= 32;
   }
-  delegatee_->SetPixel(x, base_y + y, red, green, blue);
+  delegatee_->SetPixel(finalx, finaly, red, green, blue);
 }
 
 UArrangementTransformer::UArrangementTransformer(int parallel)

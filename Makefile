@@ -1,3 +1,7 @@
+
+export HARDWARE_DESC=adafruit-hat-pwm
+export USER_DEFINES=-DRGB_SLOWDOWN_GPIO=2
+
 CXXFLAGS=-Wall -O3 -g
 OBJECTS=demo-main.o minimal-example.o text-example.o led-image-viewer.o
 BINARIES=led-matrix minimal-example text-example

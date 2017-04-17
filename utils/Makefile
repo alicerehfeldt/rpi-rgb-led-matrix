@@ -1,4 +1,7 @@
-CXXFLAGS=-Wall -O3 -g
+export HARDWARE_DESC=adafruit-hat-pwm
+export USER_DEFINES=-DRGB_SLOWDOWN_GPIO=2
+
+CXXFLAG=S-Wall -O3 -g
 OBJECTS=led-image-viewer.o
 BINARIES=led-image-viewer
 
