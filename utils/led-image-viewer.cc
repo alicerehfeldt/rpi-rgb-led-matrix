@@ -71,6 +71,7 @@ public:
   PreprocessedFrame(const Magick::Image &img, bool do_center,
                     rgb_matrix::FrameCanvas *output)
     : canvas_(output) {
+
     int delay_time = img.animationDelay();  // in 1/100s of a second.
     if (delay_time < 1) delay_time = 10;
     delay_millis_ = delay_time * 10;
@@ -357,9 +358,15 @@ int main(int argc, char *argv[]) {
       file_info->params = filename_params[filename];
       // Convert to preprocessed frames.
       for (size_t i = 0; i < image_sequence.size(); ++i) {
+        // Flatten transparent frames onto black
+        image_sequence[i].backgroundColor(Magick::Color("black"));
+        Magick::Image flattened;
+        std::list<Magick::Image> images;
+        images.push_back(image_sequence[i]);
+        flattenImages(&flattened, images.begin(), images.end());
         FrameCanvas *canvas = matrix->CreateFrameCanvas();
         file_info->frames.push_back(
-          new PreprocessedFrame(image_sequence[i], do_center, canvas));
+          new PreprocessedFrame(flattened, do_center, canvas));
       }
       // The 'animation delay' of a single image is the time to the next image.
       if (file_info->frames.size() == 1) {
